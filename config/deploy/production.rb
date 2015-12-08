@@ -14,8 +14,8 @@ namespace :symlinks do
         ['database','secrets'].each do |secret|
           secret_file_link="#{release_path}/config/#{secret}.yml"
           secret_file_target="#{shared_path}/config/#{secret}.yml"
-          #execute "rm -f #{secret_file_link}"
-          #execute "ln -s #{secret_file_target} #{secret_file_link}"
+          execute "rm -f #{secret_file_link}"
+          execute "ln -s #{secret_file_target} #{secret_file_link}"
         end
       end
     end
@@ -66,7 +66,7 @@ namespace :rails do
   task :precompile_assets do
     on roles(:app) do
       within release_path do
-        execute "/bin/bash -l -i -c 'cd #{release_path} && rvm use #{fetch(:rvm_string)} && npm install && rake RAILS_ENV=production assets:precompile'"
+        execute "/bin/bash -l -i -c 'cd #{release_path} && rvm use #{fetch(:rvm_string)} && rake RAILS_ENV=production assets:precompile'"
       end
     end
   end
